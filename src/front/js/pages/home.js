@@ -1,26 +1,33 @@
-import React, { useContext } from "react";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
+import React, { useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom";
+
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
-};
+    const navigate = useNavigate()
+    let token = localStorage.getItem("jwt-token")
+
+    useEffect(() => {
+        if (!token) {
+            navigate("/login")
+        }
+    })
+
+    return(
+        <div className="container">
+          <div className="card text-center">
+              <div className="card-header">
+                  <h1>Home</h1>
+              </div>
+              <div className="card-body">
+                  <h5 className="card-title">You have logged in with the user:</h5>
+                  <p className="card-text">{localStorage.getItem("email")}</p>
+              </div>
+              <div className="card-footer text-muted">
+                Exclusive access for logged in users
+              </div>
+          </div>
+        </div>
+    )
+}
+
